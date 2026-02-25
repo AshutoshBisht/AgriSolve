@@ -119,7 +119,7 @@ export default function NewUIChat() {
       recorder.start();
       setMediaRecorder(recorder);
       setIsRecording(true);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Microphone error:", err);
       alert("Microphone access denied. Please allow microphone access.");
     }
@@ -163,7 +163,7 @@ export default function NewUIChat() {
       } else {
         throw new Error(data.error || "Transcription failed");
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Audio transcription error:", err);
       alert("Could not transcribe audio. Please try again.");
     } finally {
@@ -248,7 +248,7 @@ export default function NewUIChat() {
           try {
             const parsed = JSON.parse(sourcesJson);
             sources = parsed.sources;
-          } catch (e) {
+          } catch {
             sources = undefined;
           }
           buffer = "";
@@ -271,7 +271,7 @@ export default function NewUIChat() {
         }
         return updated;
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Chat error:", err);
       setMessages((msgs) => [
         ...msgs,

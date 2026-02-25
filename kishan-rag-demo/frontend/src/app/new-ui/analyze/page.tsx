@@ -85,8 +85,8 @@ export default function NewUIAnalyze() {
 
         xhr.send(formData);
       });
-    } catch (err: any) {
-      setUploadError(err.message || "Failed to upload file");
+    } catch (err: unknown) {
+      setUploadError(err instanceof Error ? err.message : "Failed to upload file");
     } finally {
       setUploading(false);
       setUploadProgress(0);
