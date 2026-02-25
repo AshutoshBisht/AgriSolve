@@ -7,6 +7,9 @@ import os
 import sys
 import fitz  # pymupdf
 import tempfile
+import hashlib
+import httpx
+from bs4 import BeautifulSoup
 
 # Import feature flags from root directory
 _backend_dir = os.path.dirname(os.path.abspath(__file__))
@@ -25,7 +28,7 @@ query_index = None
 
 if flags.USE_PINECONE:
     try:
-        from pinecone_service import upsert_document, query_index
+        from pinecone_service import upsert_document, query_index, check_url_cache, store_url_sentinel
         VECTOR_DB_AVAILABLE = True
         print("[main] Using Pinecone for vector storage (cloud-based)")
     except Exception as e:
@@ -226,8 +229,79 @@ async def upload_pdf(file: UploadFile = File(...), doc_url: str = Form(...)):
         return JSONResponse(status_code=500, content={"error": str(e)})
 
 
+@app.post("/api/upload-url")
+async def upload_url(url: str = Form(...)):
+    """
+    Scrape a URL, hash its content, and index it in Pinecone.
+    If the URL was previously indexed with the same content, returns cached result.
+    If content has changed, re-indexes the updated content.
+    """
+    if not VECTOR_DB_AVAILABLE:
+        return JSONResponse(status_code=503, content={"error": "Pinecone is not available."})
 
-# /api/transcribe endpoint — powered by Groq Whisper API
+    url = url.strip()
+    if not url.startswith(("http://", "https://")):
+        return JSONResponse(status_code=400, content={"error": "Invalid URL. Must start with http:// or https://"})
+
+    try:
+        # 1. Scrape the URL
+        print(f"[upload-url] Fetching: {url}")
+        async with httpx.AsyncClient(timeout=20, follow_redirects=True) as client:
+            response = await client.get(url, headers={"User-Agent": "Mozilla/5.0 AgriSolveBot/1.0"})
+            response.raise_for_status()
+
+        # 2. Extract clean text from HTML
+        soup = BeautifulSoup(response.text, "html.parser")
+        # Remove scripts, styles, nav, footer — keep main content
+        for tag in soup(["script", "style", "nav", "footer", "header", "aside"]):
+            tag.decompose()
+        page_title = soup.title.string.strip() if soup.title and soup.title.string else url
+        text = soup.get_text(separator="\n", strip=True)
+
+        if len(text) < 100:
+            return JSONResponse(status_code=422, content={"error": "Could not extract meaningful text from this URL."})
+
+        # 3. Hash the content
+        content_hash = hashlib.sha256(text.encode("utf-8")).hexdigest()
+        print(f"[upload-url] Content hash: {content_hash[:16]}... ({len(text)} chars)")
+
+        # 4. Check cache — is this URL already indexed with the same content?
+        cache = await check_url_cache(url)
+        if cache["cached"] and cache["content_hash"] == content_hash:
+            print(f"[upload-url] Cache HIT — same content, skipping re-index")
+            return {
+                "message": f"'{page_title}' is already indexed and up to date. No re-indexing needed.",
+                "cached": True,
+                "indexed_at": cache["indexed_at"],
+            }
+
+        # 5. Content is new or changed — upsert into Pinecone
+        status = "updated" if cache["cached"] else "new"
+        print(f"[upload-url] Cache MISS ({status}) — indexing content...")
+        total_chunks = await upsert_document(
+            text,
+            metadata={"doc_name": page_title, "doc_url": url, "content_hash": content_hash},
+        )
+
+        # 6. Store/update the sentinel so future calls hit the cache
+        await store_url_sentinel(url, content_hash, doc_name=page_title)
+
+        return {
+            "message": f"'{page_title}' indexed successfully ({total_chunks} chunks).",
+            "cached": False,
+            "status": status,
+            "chunks": total_chunks,
+        }
+
+    except httpx.HTTPStatusError as e:
+        return JSONResponse(status_code=502, content={"error": f"Failed to fetch URL: HTTP {e.response.status_code}"})
+    except httpx.RequestError as e:
+        return JSONResponse(status_code=502, content={"error": f"Network error fetching URL: {str(e)}"})
+    except Exception as e:
+        import traceback; traceback.print_exc()
+        return JSONResponse(status_code=500, content={"error": str(e)})
+
+
 @app.post("/api/transcribe")
 async def transcribe_endpoint(
     audio: UploadFile = File(...),

@@ -11,4 +11,6 @@ pymupdf
 google-generativeai
 python-multipart
 groq  # Whisper transcription via Groq API (free tier, no local model needed)
+beautifulsoup4  # HTML parsing for URL content scraping
+httpx  # Async HTTP client for web scraping
 # torch / transformers / librosa / soundfile / resampy removed — not needed with Groq
