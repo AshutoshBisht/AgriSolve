@@ -1,0 +1,150 @@
+{
+  "_comment": "Wheat sow/harvest dates for each agro-climatic zone. Dates are month-day; year is computed at runtime.",
+  "Wheat": {
+    "NW Plains": {
+      "sow": "11-01",
+      "irrigations": ["11-21", "12-25", "01-25", "02-20"],
+      "fertilizer_events": [
+        {"dap": "11-01", "label": "Basal: DAP 40 kg/acre + MOP 20 kg/acre"},
+        {"dap": "12-20", "label": "Top Dress: Urea 25 kg/acre (1st)"},
+        {"dap": "01-30", "label": "Top Dress: Urea 25 kg/acre (2nd)"}
+      ],
+      "harvest_start": "03-15",
+      "harvest_end": "04-10"
+    },
+    "Eastern Plains": {
+      "sow": "11-15",
+      "irrigations": ["12-05", "01-05", "02-05", "03-01"],
+      "fertilizer_events": [
+        {"dap": "11-15", "label": "Basal: DAP 40 kg/acre + MOP 20 kg/acre"},
+        {"dap": "01-05", "label": "Top Dress: Urea 25 kg/acre"},
+        {"dap": "02-05", "label": "Top Dress: Urea 20 kg/acre"}
+      ],
+      "harvest_start": "03-25",
+      "harvest_end": "04-20"
+    }
+  },
+  "Rice": {
+    "NW Plains": {
+      "sow": "06-15",
+      "irrigations": ["07-01", "07-15", "08-01", "08-20", "09-10"],
+      "fertilizer_events": [
+        {"dap": "06-15", "label": "Basal: DAP 25 kg/acre"},
+        {"dap": "07-15", "label": "Top Dress: Urea 20 kg/acre (tillering)"},
+        {"dap": "08-10", "label": "Top Dress: Urea 15 kg/acre (panicle init.)"}
+      ],
+      "harvest_start": "10-15",
+      "harvest_end": "11-10"
+    }
+  },
+  "Maize": {
+    "NW Plains": {
+      "sow": "06-20",
+      "irrigations": ["07-10", "08-01", "08-20"],
+      "fertilizer_events": [
+        {"dap": "06-20", "label": "Basal: DAP 30 kg/acre + Zinc 10 kg/acre"},
+        {"dap": "07-15", "label": "Top Dress: Urea 25 kg/acre"},
+        {"dap": "08-05", "label": "Top Dress: Urea 20 kg/acre"}
+      ],
+      "harvest_start": "09-20",
+      "harvest_end": "10-10"
+    }
+  },
+  "Mustard": {
+    "NW Plains": {
+      "sow": "10-15",
+      "irrigations": ["11-10", "12-20"],
+      "fertilizer_events": [
+        {"dap": "10-15", "label": "Basal: DAP 20 kg/acre + Sulphur 5 kg/acre"},
+        {"dap": "11-15", "label": "Top Dress: Urea 15 kg/acre"}
+      ],
+      "harvest_start": "02-10",
+      "harvest_end": "03-05"
+    }
+  },
+  "Soybean": {
+    "Central India": {
+      "sow": "06-25",
+      "irrigations": ["07-20", "08-10"],
+      "fertilizer_events": [
+        {"dap": "06-25", "label": "Basal: SSP 40 kg/acre + Rhizobium seed treatment"},
+        {"dap": "07-25", "label": "Top Dress: Urea 10 kg/acre (if needed)"}
+      ],
+      "harvest_start": "09-25",
+      "harvest_end": "10-15"
+    }
+  },
+  "Cotton": {
+    "Central India": {
+      "sow": "05-15",
+      "irrigations": ["06-10", "07-01", "07-25", "08-20", "09-15"],
+      "fertilizer_events": [
+        {"dap": "05-15", "label": "Basal: DAP 20 kg + MOP 20 kg/acre"},
+        {"dap": "07-01", "label": "Top Dress: Urea 20 kg/acre"},
+        {"dap": "08-10", "label": "Top Dress: Urea 20 kg/acre"}
+      ],
+      "harvest_start": "10-01",
+      "harvest_end": "01-31"
+    }
+  },
+  "Groundnut": {
+    "Southern India": {
+      "sow": "06-20",
+      "irrigations": ["07-15", "08-05", "08-25"],
+      "fertilizer_events": [
+        {"dap": "06-20", "label": "Basal: SSP 40 kg/acre + Gypsum 50 kg/acre"},
+        {"dap": "07-20", "label": "Foliar: Urea 2% spray at pegging stage"}
+      ],
+      "harvest_start": "10-01",
+      "harvest_end": "10-25"
+    }
+  },
+  "Potato": {
+    "NW Plains": {
+      "sow": "10-20",
+      "irrigations": ["11-10", "11-30", "12-20", "01-10"],
+      "fertilizer_events": [
+        {"dap": "10-20", "label": "Basal: DAP 50 kg/acre + MOP 50 kg/acre"},
+        {"dap": "11-20", "label": "Top Dress: Urea 30 kg/acre"},
+        {"dap": "12-15", "label": "Top Dress: Urea 20 kg/acre"}
+      ],
+      "harvest_start": "01-25",
+      "harvest_end": "02-20"
+    }
+  },
+  "Watermelon": {
+    "NW Plains": {
+      "sow": "02-15",
+      "irrigations": ["03-01", "03-15", "04-01", "04-15"],
+      "fertilizer_events": [
+        {"dap": "02-15", "label": "Basal: DAP 10 kg/acre + Compost 2 tonnes/acre"},
+        {"dap": "03-10", "label": "Top Dress: Urea 10 kg/acre (vine spread)"}
+      ],
+      "harvest_start": "04-20",
+      "harvest_end": "05-20"
+    }
+  },
+  "Moong (Green Gram)": {
+    "NW Plains": {
+      "sow": "03-01",
+      "irrigations": ["03-20", "04-10"],
+      "fertilizer_events": [
+        {"dap": "03-01", "label": "Basal: DAP 15 kg/acre (low needs, N-fixing pulse)"}
+      ],
+      "harvest_start": "05-10",
+      "harvest_end": "05-30"
+    }
+  },
+  "Chickpea (Chana)": {
+    "NW Plains": {
+      "sow": "11-01",
+      "irrigations": ["11-25", "01-10"],
+      "fertilizer_events": [
+        {"dap": "11-01", "label": "Basal: DAP 20 kg/acre + Zinc 5 kg/acre"},
+        {"dap": "12-01", "label": "Foliar: Urea 2% if leaves yellowing"}
+      ],
+      "harvest_start": "02-15",
+      "harvest_end": "03-10"
+    }
+  }
+}

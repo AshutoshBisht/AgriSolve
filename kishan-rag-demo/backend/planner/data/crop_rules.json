@@ -1,0 +1,200 @@
+[
+  {
+    "crop": "Wheat",
+    "seasons": ["Rabi"],
+    "soils": ["Loamy", "Alluvial", "Clay"],
+    "min_temp": 10,
+    "max_temp": 25,
+    "min_rain_mm_month": 20,
+    "water_req": "450mm",
+    "yield_range": "2.5–4 t/ha",
+    "notes": "Best suited for North Indian plains in winter."
+  },
+  {
+    "crop": "Mustard",
+    "seasons": ["Rabi"],
+    "soils": ["Loamy", "Sandy", "Alluvial", "Red"],
+    "min_temp": 8,
+    "max_temp": 22,
+    "min_rain_mm_month": 10,
+    "water_req": "250mm",
+    "yield_range": "1–1.5 t/ha",
+    "notes": "Drought-tolerant oilseed, ideal for dry Rabi conditions."
+  },
+  {
+    "crop": "Barley",
+    "seasons": ["Rabi"],
+    "soils": ["Loamy", "Sandy", "Alluvial"],
+    "min_temp": 8,
+    "max_temp": 23,
+    "min_rain_mm_month": 15,
+    "water_req": "350mm",
+    "yield_range": "2–3 t/ha",
+    "notes": "Hardy cereal, tolerates poor soils better than wheat."
+  },
+  {
+    "crop": "Chickpea (Chana)",
+    "seasons": ["Rabi"],
+    "soils": ["Sandy", "Loamy", "Black", "Red"],
+    "min_temp": 8,
+    "max_temp": 24,
+    "min_rain_mm_month": 10,
+    "water_req": "200mm",
+    "yield_range": "0.8–1.5 t/ha",
+    "notes": "Protein-rich pulse that fixes nitrogen in soil."
+  },
+  {
+    "crop": "Potato",
+    "seasons": ["Rabi"],
+    "soils": ["Loamy", "Sandy", "Alluvial"],
+    "min_temp": 10,
+    "max_temp": 20,
+    "min_rain_mm_month": 25,
+    "water_req": "500mm",
+    "yield_range": "15–25 t/ha",
+    "notes": "High-value vegetable; needs well-drained loose soil."
+  },
+  {
+    "crop": "Peas",
+    "seasons": ["Rabi"],
+    "soils": ["Loamy", "Alluvial", "Sandy"],
+    "min_temp": 7,
+    "max_temp": 20,
+    "min_rain_mm_month": 20,
+    "water_req": "300mm",
+    "yield_range": "5–8 t/ha (green pods)",
+    "notes": "Short-duration vegetable, good for market gardening."
+  },
+  {
+    "crop": "Rice",
+    "seasons": ["Kharif"],
+    "soils": ["Clay", "Loamy", "Alluvial"],
+    "min_temp": 22,
+    "max_temp": 35,
+    "min_rain_mm_month": 120,
+    "water_req": "1200mm",
+    "yield_range": "2–5 t/ha",
+    "notes": "Staple Kharif crop; requires abundant water and warm weather."
+  },
+  {
+    "crop": "Maize",
+    "seasons": ["Kharif", "Zaid"],
+    "soils": ["Loamy", "Red", "Alluvial"],
+    "min_temp": 20,
+    "max_temp": 35,
+    "min_rain_mm_month": 80,
+    "water_req": "500mm",
+    "yield_range": "3–6 t/ha",
+    "notes": "Versatile cereal for food, feed, and industrial use."
+  },
+  {
+    "crop": "Sugarcane",
+    "seasons": ["Kharif"],
+    "soils": ["Loamy", "Alluvial", "Black"],
+    "min_temp": 24,
+    "max_temp": 38,
+    "min_rain_mm_month": 100,
+    "water_req": "1500mm",
+    "yield_range": "50–100 t/ha",
+    "notes": "Long-duration cash crop; requires heavy irrigation."
+  },
+  {
+    "crop": "Soybean",
+    "seasons": ["Kharif"],
+    "soils": ["Black", "Loamy", "Red"],
+    "min_temp": 22,
+    "max_temp": 36,
+    "min_rain_mm_month": 80,
+    "water_req": "450mm",
+    "yield_range": "1–2 t/ha",
+    "notes": "Oilseed pulse, good for black cotton soil of central India."
+  },
+  {
+    "crop": "Cotton",
+    "seasons": ["Kharif"],
+    "soils": ["Black", "Red", "Loamy"],
+    "min_temp": 25,
+    "max_temp": 40,
+    "min_rain_mm_month": 60,
+    "water_req": "700mm",
+    "yield_range": "1.5–3 t/ha seed cotton",
+    "notes": "Cash crop suited to black regur soil of Vidarbha and Gujarat."
+  },
+  {
+    "crop": "Groundnut",
+    "seasons": ["Kharif"],
+    "soils": ["Red", "Sandy", "Loamy"],
+    "min_temp": 22,
+    "max_temp": 36,
+    "min_rain_mm_month": 60,
+    "water_req": "400mm",
+    "yield_range": "1–2.5 t/ha",
+    "notes": "Drought-tolerant oilseed for light soils of peninsular India."
+  },
+  {
+    "crop": "Ragi (Finger Millet)",
+    "seasons": ["Kharif"],
+    "soils": ["Red", "Sandy", "Loamy"],
+    "min_temp": 20,
+    "max_temp": 36,
+    "min_rain_mm_month": 50,
+    "water_req": "350mm",
+    "yield_range": "1.5–2.5 t/ha",
+    "notes": "Highly nutritious millet; thrives in dry red soils of Karnataka and AP."
+  },
+  {
+    "crop": "Jute",
+    "seasons": ["Kharif"],
+    "soils": ["Clay", "Alluvial", "Loamy"],
+    "min_temp": 24,
+    "max_temp": 37,
+    "min_rain_mm_month": 150,
+    "water_req": "1000mm",
+    "yield_range": "2–3 t/ha fibre",
+    "notes": "Natural fibre crop mainly grown in West Bengal and Assam."
+  },
+  {
+    "crop": "Sorghum (Jowar)",
+    "seasons": ["Kharif", "Rabi"],
+    "soils": ["Black", "Loamy", "Red"],
+    "min_temp": 22,
+    "max_temp": 38,
+    "min_rain_mm_month": 40,
+    "water_req": "400mm",
+    "yield_range": "1.5–3 t/ha",
+    "notes": "Drought-resistant coarse cereal, suited to semi-arid regions."
+  },
+  {
+    "crop": "Watermelon",
+    "seasons": ["Zaid"],
+    "soils": ["Sandy", "Loamy", "Red"],
+    "min_temp": 25,
+    "max_temp": 40,
+    "min_rain_mm_month": 0,
+    "water_req": "400mm",
+    "yield_range": "20–40 t/ha",
+    "notes": "Hot-season cash vegetable; good returns in summer months."
+  },
+  {
+    "crop": "Cucumber",
+    "seasons": ["Zaid"],
+    "soils": ["Sandy", "Loamy"],
+    "min_temp": 24,
+    "max_temp": 40,
+    "min_rain_mm_month": 0,
+    "water_req": "300mm",
+    "yield_range": "10–20 t/ha",
+    "notes": "Short-duration vegetable with high market demand in summer."
+  },
+  {
+    "crop": "Moong (Green Gram)",
+    "seasons": ["Zaid", "Kharif"],
+    "soils": ["Sandy", "Loamy", "Alluvial"],
+    "min_temp": 25,
+    "max_temp": 42,
+    "min_rain_mm_month": 0,
+    "water_req": "350mm",
+    "yield_range": "0.6–1 t/ha",
+    "notes": "Short-duration pulse ideal for inter-cropping and summer cultivation."
+  }
+]

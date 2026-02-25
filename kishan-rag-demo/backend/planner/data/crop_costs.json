@@ -1,0 +1,21 @@
+{
+  "_comment": "Typical Indian crop production costs per hectare in INR (2024-25 estimates). Sources: CACP, ICAR, state agriculture department averages.",
+  "Wheat":      { "seeds": 3000,  "fertilizer": 8000,  "irrigation": 4000,  "harvesting": 3500,  "labor": 5000  },
+  "Rice":       { "seeds": 2500,  "fertilizer": 9000,  "irrigation": 6000,  "harvesting": 4000,  "labor": 7000  },
+  "Maize":      { "seeds": 3500,  "fertilizer": 7000,  "irrigation": 3000,  "harvesting": 2500,  "labor": 4000  },
+  "Mustard":    { "seeds": 1500,  "fertilizer": 6000,  "irrigation": 2500,  "harvesting": 2000,  "labor": 3500  },
+  "Barley":     { "seeds": 2500,  "fertilizer": 5500,  "irrigation": 2000,  "harvesting": 2500,  "labor": 3000  },
+  "Chickpea":   { "seeds": 3500,  "fertilizer": 4000,  "irrigation": 1500,  "harvesting": 2500,  "labor": 3000  },
+  "Potato":     { "seeds": 20000, "fertilizer": 12000, "irrigation": 5000,  "harvesting": 6000,  "labor": 8000  },
+  "Peas":       { "seeds": 6000,  "fertilizer": 5000,  "irrigation": 2500,  "harvesting": 3000,  "labor": 4500  },
+  "Soybean":    { "seeds": 4000,  "fertilizer": 5000,  "irrigation": 2000,  "harvesting": 3000,  "labor": 4000  },
+  "Cotton":     { "seeds": 4000,  "fertilizer": 10000, "irrigation": 5000,  "harvesting": 8000,  "labor": 9000  },
+  "Groundnut":  { "seeds": 8000,  "fertilizer": 6000,  "irrigation": 3000,  "harvesting": 4000,  "labor": 6000  },
+  "Ragi":       { "seeds": 1500,  "fertilizer": 4500,  "irrigation": 2000,  "harvesting": 2000,  "labor": 3000  },
+  "Jute":       { "seeds": 2000,  "fertilizer": 5000,  "irrigation": 2500,  "harvesting": 4000,  "labor": 5000  },
+  "Sorghum":    { "seeds": 2000,  "fertilizer": 5000,  "irrigation": 2500,  "harvesting": 2500,  "labor": 3500  },
+  "Sugarcane":  { "seeds": 8000,  "fertilizer": 15000, "irrigation": 8000,  "harvesting": 10000, "labor": 12000 },
+  "Watermelon": { "seeds": 5000,  "fertilizer": 8000,  "irrigation": 4000,  "harvesting": 3500,  "labor": 5000  },
+  "Cucumber":   { "seeds": 4500,  "fertilizer": 7000,  "irrigation": 3500,  "harvesting": 4000,  "labor": 5500  },
+  "Moong":      { "seeds": 5000,  "fertilizer": 3500,  "irrigation": 1500,  "harvesting": 2500,  "labor": 3000  }
+}

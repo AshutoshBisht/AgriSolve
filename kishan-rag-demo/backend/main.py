@@ -11,11 +11,15 @@ import hashlib
 import httpx
 from bs4 import BeautifulSoup
 
-# Import feature flags from root directory
+# Import feature flags.
+# Local dev:  flags.py lives one level up (kishan-rag-demo/flags.py)
+# Production: flags.py is a copy inside this backend/ directory
+# Both paths are added so whichever is found first is used.
 _backend_dir = os.path.dirname(os.path.abspath(__file__))
 _project_root = os.path.dirname(_backend_dir)
-if _project_root not in sys.path:
-    sys.path.insert(0, _project_root)
+for _p in (_project_root, _backend_dir):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 import flags
 from language_service import get_model_with_fallback
 
@@ -70,6 +74,16 @@ import google.generativeai as genai
 # from transformers import AutoTokenizer, AutoModelForCausalLM
 # import torch
 
+# ── Farming Planner multi-agent router ──────────────────────────────────────
+# All 7 agent endpoints live under /api/planner/*
+# Import is guarded so a missing optional dependency never crashes the main app.
+try:
+    from planner.router import router as planner_router
+    _PLANNER_AVAILABLE = True
+except Exception as _planner_err:
+    _PLANNER_AVAILABLE = False
+    print(f"[main] WARNING: Farming Planner router not loaded: {_planner_err}")
+
 app = FastAPI()
 
 # Allow frontend origin from env (set FRONTEND_URL in production, e.g. https://your-app.vercel.app)
@@ -85,6 +99,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ── Mount Farming Planner router ─────────────────────────────────────────────
+# Registers all /api/planner/* endpoints (geocode, weather, crops, market,
+# calendar, doctor, predict).  Skipped gracefully if the module failed to load.
+if _PLANNER_AVAILABLE:
+    app.include_router(planner_router)
+    print("[main] Farming Planner router mounted at /api/planner/*")
 
 
 load_dotenv()

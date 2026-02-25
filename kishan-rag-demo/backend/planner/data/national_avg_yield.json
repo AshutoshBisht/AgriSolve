@@ -1,0 +1,21 @@
+{
+  "_comment": "Average yield in tonnes per hectare by crop. Used as fallback when district-level data is unavailable.",
+  "Wheat": 3.2,
+  "Rice": 3.0,
+  "Maize": 3.5,
+  "Mustard": 1.2,
+  "Barley": 2.5,
+  "Chickpea (Chana)": 1.0,
+  "Potato": 20.0,
+  "Peas": 6.0,
+  "Soybean": 1.3,
+  "Cotton": 2.0,
+  "Groundnut": 1.8,
+  "Ragi (Finger Millet)": 2.0,
+  "Jute": 2.5,
+  "Sorghum (Jowar)": 2.0,
+  "Sugarcane": 70.0,
+  "Watermelon": 28.0,
+  "Cucumber": 15.0,
+  "Moong (Green Gram)": 0.8
+}

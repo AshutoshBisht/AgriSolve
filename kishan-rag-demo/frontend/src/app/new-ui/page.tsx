@@ -30,7 +30,7 @@ export default function NewUILanding() {
             </a>
             <a
               className="text-sm font-semibold text-gray-600 dark:text-gray-400 hover:text-[#2bee3b] transition-colors"
-              href="#"
+              href="#features"
             >
               Features
             </a>
@@ -82,60 +82,169 @@ export default function NewUILanding() {
               <span className="material-symbols-outlined">upload_file</span>
               Analyze Documents
             </button>
+            <button
+              onClick={() => router.push("/farming-planner")}
+              className="w-full sm:w-auto px-10 py-5 bg-green-700 border border-green-600 text-white rounded-full text-lg font-bold hover:bg-green-600 transition-all flex items-center justify-center gap-2"
+            >
+              <span className="material-symbols-outlined">map</span>
+              Farming Planner
+            </button>
           </div>
         </div>
       </header>
 
       {/* Features Section */}
-      <section className="py-24 px-6 max-w-7xl mx-auto w-full">
+      <section id="features" className="py-24 px-6 max-w-7xl mx-auto w-full">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-black mb-4">
             Empowering Modern Farmers
           </h2>
           <p className="text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
-            Our platform combines deep agronomy knowledge with cutting-edge
-            document processing.
+            From document intelligence to a full 7-agent farming assistant —
+            everything a modern farmer needs in one platform.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Feature Card 1 */}
-          <div className="soft-green-shadow bg-white dark:bg-[#152016] border border-[#dbe6dc] dark:border-white/5 p-10 rounded-2xl flex flex-col items-center text-center group hover:-translate-y-2 transition-transform duration-300">
-            <div className="w-16 h-16 bg-[#2bee3b]/10 text-[#2bee3b] rounded-2xl flex items-center justify-center mb-6">
-              <span className="material-symbols-outlined text-4xl">
-                description
-              </span>
+
+        {/* ── Core platform features ── */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <div
+            onClick={() => router.push("/new-ui/analyze")}
+            className="cursor-pointer soft-green-shadow bg-white dark:bg-[#152016] border border-[#dbe6dc] dark:border-white/5 p-8 rounded-2xl flex flex-col items-center text-center hover:-translate-y-2 transition-transform duration-300"
+          >
+            <div className="w-14 h-14 bg-[#2bee3b]/10 text-[#2bee3b] rounded-2xl flex items-center justify-center mb-5">
+              <span className="material-symbols-outlined text-3xl">description</span>
             </div>
-            <h3 className="text-xl font-bold mb-4">Document Analysis</h3>
-            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-              Instantly extract key data from soil tests, chemical labels, and
-              machinery manuals with our intelligent OCR.
+            <h3 className="text-lg font-bold mb-2">Document Analysis</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+              Extract key data from soil tests, chemical labels, and machinery
+              manuals with intelligent OCR.
             </p>
           </div>
 
-          {/* Feature Card 2 */}
-          <div className="soft-green-shadow bg-white dark:bg-[#152016] border border-[#dbe6dc] dark:border-white/5 p-10 rounded-2xl flex flex-col items-center text-center group hover:-translate-y-2 transition-transform duration-300">
-            <div className="w-16 h-16 bg-[#2bee3b]/10 text-[#2bee3b] rounded-2xl flex items-center justify-center mb-6">
-              <span className="material-symbols-outlined text-4xl">forum</span>
+          <div
+            onClick={() => router.push("/new-ui/chat")}
+            className="cursor-pointer soft-green-shadow bg-white dark:bg-[#152016] border border-[#dbe6dc] dark:border-white/5 p-8 rounded-2xl flex flex-col items-center text-center hover:-translate-y-2 transition-transform duration-300"
+          >
+            <div className="w-14 h-14 bg-[#2bee3b]/10 text-[#2bee3b] rounded-2xl flex items-center justify-center mb-5">
+              <span className="material-symbols-outlined text-3xl">forum</span>
             </div>
-            <h3 className="text-xl font-bold mb-4">Smart Chat</h3>
-            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+            <h3 className="text-lg font-bold mb-2">Smart Chat</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
               Get 24/7 expert answers to complex agricultural questions,
-              specifically tailored to your local climate.
+              tailored to your local climate and crops.
             </p>
           </div>
 
-          {/* Feature Card 3 */}
-          <div className="soft-green-shadow bg-white dark:bg-[#152016] border border-[#dbe6dc] dark:border-white/5 p-10 rounded-2xl flex flex-col items-center text-center group hover:-translate-y-2 transition-transform duration-300">
-            <div className="w-16 h-16 bg-[#2bee3b]/10 text-[#2bee3b] rounded-2xl flex items-center justify-center mb-6">
-              <span className="material-symbols-outlined text-4xl">
-                tips_and_updates
-              </span>
+          <div className="soft-green-shadow bg-white dark:bg-[#152016] border border-[#dbe6dc] dark:border-white/5 p-8 rounded-2xl flex flex-col items-center text-center hover:-translate-y-2 transition-transform duration-300">
+            <div className="w-14 h-14 bg-[#2bee3b]/10 text-[#2bee3b] rounded-2xl flex items-center justify-center mb-5">
+              <span className="material-symbols-outlined text-3xl">tips_and_updates</span>
             </div>
-            <h3 className="text-xl font-bold mb-4">Instant Solutions</h3>
-            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-              Receive actionable recommendations for fertilization, pest
-              control, and irrigation based on real-time data.
+            <h3 className="text-lg font-bold mb-2">Instant Solutions</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+              Actionable recommendations for fertilization, pest control, and
+              irrigation based on real-time data.
             </p>
+          </div>
+        </div>
+
+        {/* ── Farming Planner — 7 AI Agents ── */}
+        <div className="rounded-3xl border border-green-200 dark:border-green-900 bg-gradient-to-br from-green-50 to-white dark:from-[#0d1f0e] dark:to-[#152016] p-8 md:p-12">
+          {/* Header row */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
+            <div>
+              <div className="inline-flex items-center gap-2 text-xs font-bold text-green-700 bg-green-100 dark:bg-green-900/40 dark:text-green-400 px-3 py-1 rounded-full mb-3">
+                <span className="material-symbols-outlined text-sm">psychology</span>
+                7-AGENT AI SYSTEM
+              </div>
+              <h3 className="text-2xl md:text-3xl font-black mb-2">Farming Planner</h3>
+              <p className="text-gray-500 dark:text-gray-400 max-w-lg">
+                An end-to-end agentic intelligence layer that turns your
+                location, soil, and season into a complete farm strategy.
+              </p>
+            </div>
+            <button
+              onClick={() => router.push("/farming-planner")}
+              className="flex-shrink-0 flex items-center gap-2 px-7 py-3.5 bg-green-700 text-white font-bold rounded-full hover:bg-green-600 transition-colors"
+            >
+              <span className="material-symbols-outlined">open_in_new</span>
+              Open Planner
+            </button>
+          </div>
+
+          {/* Agent cards grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              {
+                icon: "map",
+                color: "text-blue-600 bg-blue-50 dark:bg-blue-900/20",
+                title: "Map & Location",
+                desc: "Geocodes your district to coordinates via OpenStreetMap and pins your farm on an interactive map.",
+                href: "/farming-planner",
+              },
+              {
+                icon: "grass",
+                color: "text-green-700 bg-green-100 dark:bg-green-900/30",
+                title: "Crop Advisor",
+                desc: "Rule-based scoring across 18 crops matched to your soil, rainfall, and season — with Gemini AI explanations.",
+                href: "/crop-recommender",
+              },
+              {
+                icon: "wb_cloudy",
+                color: "text-sky-500 bg-sky-50 dark:bg-sky-900/20",
+                title: "Weather Agent",
+                desc: "7-day forecast, monthly summaries, seasonal outlook, and risk alerts via Open-Meteo.",
+                href: "/weather",
+              },
+              {
+                icon: "storefront",
+                color: "text-amber-600 bg-amber-50 dark:bg-amber-900/20",
+                title: "Market Advisor",
+                desc: "Live mandi prices from Agmarknet, MSP comparison, price trend, and buy/sell/wait advice.",
+                href: "/market",
+              },
+              {
+                icon: "calendar_month",
+                color: "text-purple-600 bg-purple-50 dark:bg-purple-900/20",
+                title: "Crop Calendar",
+                desc: "Zone-specific sowing, irrigation, fertilizer, and harvest timeline events for your chosen crop.",
+                href: "/crop-calendar",
+              },
+              {
+                icon: "biotech",
+                color: "text-red-500 bg-red-50 dark:bg-red-900/20",
+                title: "Crop Doctor",
+                desc: "RAG-powered disease diagnosis using Pinecone + Gemini — describes cause, treatment, and prevention.",
+                href: "/crop-doctor",
+              },
+              {
+                icon: "trending_up",
+                color: "text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20",
+                title: "Yield Predictor",
+                desc: "Estimates yield (tons) and revenue (₹) from land size, soil type, and weather risk factors.",
+                href: "/yield-predictor",
+              },
+              {
+                icon: "smart_toy",
+                color: "text-slate-500 bg-slate-100 dark:bg-slate-800/40",
+                title: "AI Orchestration",
+                desc: "All agents share a single FarmerContext session — one form fills the entire pipeline automatically.",
+                href: "/farming-planner",
+              },
+            ].map((a) => (
+              <div
+                key={a.title}
+                onClick={() => router.push(a.href)}
+                className="cursor-pointer bg-white dark:bg-[#1a2b1b] border border-green-100 dark:border-green-900/50 rounded-2xl p-5 flex flex-col gap-3 hover:-translate-y-1 hover:shadow-md transition-all duration-200"
+              >
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${a.color}`}>
+                  <span className="material-symbols-outlined">{a.icon}</span>
+                </div>
+                <div>
+                  <p className="font-bold text-sm mb-1">{a.title}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{a.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

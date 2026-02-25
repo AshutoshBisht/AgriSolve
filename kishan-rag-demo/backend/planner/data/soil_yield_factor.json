@@ -1,0 +1,9 @@
+{
+  "_comment": "Multiplier on base yield per soil type. Loamy/Alluvial are best; Sandy is lowest.",
+  "Loamy": 1.10,
+  "Alluvial": 1.10,
+  "Black": 1.00,
+  "Clay": 0.95,
+  "Red": 0.90,
+  "Sandy": 0.85
+}

@@ -1,0 +1,21 @@
+{
+  "_comment": "Government Minimum Support Price (MSP) in INR per quintal (100kg). Updated for Rabi 2025-26 & Kharif 2025.",
+  "Wheat": 2425,
+  "Rice": 2300,
+  "Maize": 2090,
+  "Mustard": 5950,
+  "Barley": 1980,
+  "Chickpea (Chana)": 5650,
+  "Lentil (Masur)": 6700,
+  "Soybean": 4892,
+  "Cotton (Long staple)": 7521,
+  "Cotton (Medium staple)": 7307,
+  "Groundnut": 6783,
+  "Sunflower": 7280,
+  "Sugarcane": 340,
+  "Ragi (Finger Millet)": 4290,
+  "Sorghum (Jowar)": 3371,
+  "Moong (Green Gram)": 8682,
+  "Urad (Black Gram)": 7400,
+  "Jute": 5335
+}
