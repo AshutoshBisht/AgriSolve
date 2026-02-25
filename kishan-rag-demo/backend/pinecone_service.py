@@ -2,7 +2,7 @@
 import os
 from dotenv import load_dotenv
 from pinecone import Pinecone, ServerlessSpec
-from sentence_transformers import SentenceTransformer, CrossEncoder
+from sentence_transformers import SentenceTransformer
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import asyncio
 from fastapi.concurrency import run_in_threadpool
@@ -24,18 +24,17 @@ else:
 pc = Pinecone(api_key=PINECONE_API_KEY)
 
 
-# Embedding model: 1024-dim to match Pinecone index
-EMBED_MODEL_NAME = "BAAI/bge-large-en-v1.5"
-INDEX_DIM = 1024
-# Bi-Encoder for fast retrieval
+# Embedding model: 384-dim, ~90MB RAM (lightweight, deployment-friendly)
+# NOTE: If you had a previous 1024-dim Pinecone index, delete it first —
+#       dimensions must match. The index will be auto-recreated at 384-dim.
+EMBED_MODEL_NAME = "all-MiniLM-L6-v2"
+INDEX_DIM = 384
 model = SentenceTransformer(EMBED_MODEL_NAME)
-# Log embedding dimension at startup for sanity
 try:
     print(f"[pinecone_service] Embedding model: {EMBED_MODEL_NAME}, dim={model.get_sentence_embedding_dimension()}")
 except Exception:
     pass
-# Cross-Encoder for re-ranking
-cross_encoder = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
+# Cross-encoder re-ranker removed — not needed with MiniLM's fast cosine similarity
 
 text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=500,
@@ -84,28 +83,12 @@ async def upsert_document(text, metadata=None, batch_size=50, chunk_offset=0):
 
 
 async def query_index(query, top_k=3, return_metadata=False):
-    # Step A: Retrieve a larger candidate pool
-    candidate_k = top_k * 3
     query_emb = await run_in_threadpool(model.encode, [query])
     query_emb = query_emb[0].tolist()
-    res = index.query(vector=query_emb, top_k=candidate_k, include_metadata=True)
-    candidates = res['matches']
-    if not candidates:
-        return [] if not return_metadata else []
-
-    # Step B: Cross-Encoder scoring
-    pairs = [(query, c['metadata']['text']) for c in candidates]
-    scores = await run_in_threadpool(cross_encoder.predict, pairs)
-
-    # Step C: Sort by Cross-Encoder score (descending)
-    candidates_with_scores = [
-        (c, s) for c, s in zip(candidates, scores)
-    ]
-    candidates_with_scores.sort(key=lambda x: x[1], reverse=True)
-
-    # Step D: Select top_k
-    top_matches = [c for c, _ in candidates_with_scores[:top_k]]
-
+    res = index.query(vector=query_emb, top_k=top_k, include_metadata=True)
+    matches = res['matches']
+    if not matches:
+        return []
     if return_metadata:
-        return top_matches
-    return [match['metadata']['text'] for match in top_matches]
+        return matches
+    return [m['metadata']['text'] for m in matches]

@@ -1,6 +1,8 @@
 "use client";
 import React, { useRef, useState } from "react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 export default function Upload() {
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
@@ -25,7 +27,7 @@ export default function Upload() {
     try {
       await new Promise<void>((resolve, reject) => {
         const xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://localhost:8000/api/upload");
+        xhr.open("POST", `${API_URL}/api/upload`);
         xhr.upload.onprogress = (event) => {
           if (event.lengthComputable) {
             setUploadProgress(Math.round((event.loaded / event.total) * 100));

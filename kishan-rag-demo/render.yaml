@@ -1,0 +1,32 @@
+services:
+  # ── Backend (FastAPI) ──────────────────────────────────────────────────────
+  - type: web
+    name: agrisolve-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PINECONE_API_KEY
+        sync: false          # fill in Render dashboard
+      - key: PINECONE_ENVIRONMENT
+        value: aws-us-east-1
+      - key: PINECONE_INDEX_NAME
+        value: demo
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        sync: false          # set to https://agrisolve-frontend.onrender.com after first deploy
+
+  # ── Frontend (Next.js) ────────────────────────────────────────────────────
+  - type: web
+    name: agrisolve-frontend
+    runtime: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        sync: false          # set to https://agrisolve-backend.onrender.com after first deploy

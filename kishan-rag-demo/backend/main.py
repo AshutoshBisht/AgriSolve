@@ -60,18 +60,20 @@ elif flags.USE_CHROMADB:
             if "Python 3.14" in error_str:
                 raise Exception("ChromaDB is not compatible with Python 3.14. Please use Python 3.11 or 3.12.")
             raise Exception("ChromaDB is not available. Please install chromadb: pip install chromadb")
+# audio_service uses Groq API — no local model, deployment-friendly
 from audio_service import transcribe_audio
 import google.generativeai as genai
-from transformers import AutoTokenizer, AutoModelForCausalLM
-import torch
+# Local model imports removed — USE_GEMINI_API is always True
+# from transformers import AutoTokenizer, AutoModelForCausalLM
+# import torch
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:3000",
-    "http://localhost:3001",
-    "http://localhost:3002"
-]
+# Allow frontend origin from env (set FRONTEND_URL in production, e.g. https://your-app.vercel.app)
+_frontend_url = os.getenv("FRONTEND_URL", "")
+origins = ["http://localhost:3000", "http://localhost:3001", "http://localhost:3002"]
+if _frontend_url:
+    origins.append(_frontend_url)
 
 app.add_middleware(
     CORSMiddleware,
@@ -87,28 +89,25 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 if GOOGLE_API_KEY:
     genai.configure(api_key=GOOGLE_API_KEY)
 
-# Lazy load local SLM for fallback
-_local_tokenizer = None
-_local_model = None
-LOCAL_MODEL_NAME = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"  # Small 1.1B model
-MODELS_DIR = "./models"
-LOCAL_LLM_PATH = os.path.join(MODELS_DIR, "tinyllama-chat")
-USE_LOCAL_LLM = os.path.exists(LOCAL_LLM_PATH)
-
-def get_local_llm():
-    """Lazy load local LLM for fallback when API quota exceeded"""
-    global _local_tokenizer, _local_model
-    if _local_tokenizer is None or _local_model is None:
-        model_path = LOCAL_LLM_PATH if USE_LOCAL_LLM else LOCAL_MODEL_NAME
-        print(f"[main] Loading local LLM from: {model_path}...")
-        _local_tokenizer = AutoTokenizer.from_pretrained(model_path)
-        _local_model = AutoModelForCausalLM.from_pretrained(
-            model_path,
-            torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
-            device_map="auto"
-        )
-        print(f"[main] Local LLM loaded successfully")
-    return _local_tokenizer, _local_model
+# Local LLM (TinyLlama) removed — not needed when using Gemini API
+# _local_tokenizer = None
+# _local_model = None
+# LOCAL_MODEL_NAME = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+# MODELS_DIR = "./models"
+# LOCAL_LLM_PATH = os.path.join(MODELS_DIR, "tinyllama-chat")
+# USE_LOCAL_LLM = os.path.exists(LOCAL_LLM_PATH)
+#
+# def get_local_llm():
+#     global _local_tokenizer, _local_model
+#     if _local_tokenizer is None or _local_model is None:
+#         model_path = LOCAL_LLM_PATH if USE_LOCAL_LLM else LOCAL_MODEL_NAME
+#         _local_tokenizer = AutoTokenizer.from_pretrained(model_path)
+#         _local_model = AutoModelForCausalLM.from_pretrained(
+#             model_path,
+#             torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
+#             device_map="auto"
+#         )
+#     return _local_tokenizer, _local_model
 
 
 async def translate_text(text: str, target_language: str) -> str:
@@ -228,20 +227,16 @@ async def upload_pdf(file: UploadFile = File(...), doc_url: str = Form(...)):
 
 
 
+# /api/transcribe endpoint — powered by Groq Whisper API
 @app.post("/api/transcribe")
 async def transcribe_endpoint(
     audio: UploadFile = File(...),
     language: str = Form(None)
 ):
     """
-    Transcribe audio to text
-    
-    Args:
-        audio: Audio file (wav, mp3, m4a, etc.)
-        language: Optional language code (hi, en, mr) for forced language detection
-    
-    Returns:
-        JSON with 'text' and 'language' fields
+    Transcribe audio to text via Groq whisper-large-v3-turbo.
+    Supported formats: webm, mp3, wav, m4a, ogg, flac.
+    Language: 'en', 'hi', 'mr' or omit for auto-detect.
     """
     try:
         result = await transcribe_audio(audio, language)
@@ -339,67 +334,9 @@ async def chat_endpoint(request: ChatRequest):
                     yield "\n[[SOURCES]]" + JSONResponse(content={"sources": sources}).body.decode()
                 return StreamingResponse(stream_generator(), media_type="text/plain")
         
-        # ====================================================================
-        # MODE 2: CHROMADB + LOCAL MODEL (Offline - No Internet Required)
-        # ====================================================================
-        elif flags.USE_CHROMADB and flags.USE_LOCAL_MODEL:
-            # Use local LLM directly (no API calls, fully offline)
-            from fastapi.concurrency import run_in_threadpool
-            import asyncio
-            
-            tokenizer, model = get_local_llm()
-            
-            # Format prompt for TinyLlama chat format
-            chat_prompt = f"<|system|>\n{prompt}</s>\n<|user|>\n{request.question}</s>\n<|assistant|>\n"
-            
-            inputs = tokenizer(chat_prompt, return_tensors="pt", truncation=True, max_length=1024).to(model.device)
-            input_length = inputs.input_ids.shape[1]
-            
-            def _generate():
-                import torch
-                with torch.no_grad():
-                    outputs = model.generate(
-                        inputs.input_ids,
-                        attention_mask=inputs.attention_mask if hasattr(inputs, 'attention_mask') else None,
-                        max_new_tokens=128,
-                        min_new_tokens=5,
-                        temperature=0.7,
-                        do_sample=True,
-                        top_p=0.9,
-                        top_k=50,
-                        repetition_penalty=1.1,
-                        pad_token_id=tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id,
-                        eos_token_id=tokenizer.eos_token_id,
-                        use_cache=True
-                    )
-                    new_tokens = outputs[0][input_length:]
-                    return tokenizer.decode(new_tokens, skip_special_tokens=True)
-            
-            try:
-                response_text = await asyncio.wait_for(
-                    run_in_threadpool(_generate),
-                    timeout=120.0
-                )
-            except asyncio.TimeoutError:
-                response_text = "I apologize, but the response is taking longer than expected. Please try again with a shorter question."
-            
-            if "<|assistant|>" in response_text:
-                response_text = response_text.split("<|assistant|>")[-1].strip()
-            
-            response_text = response_text.replace("<|system|>", "").replace("<|user|>", "").replace("</s>", "").strip()
-            
-            if not response_text or len(response_text) < 5:
-                response_text = "I understand your question, but I'm having trouble generating a detailed response. Could you please rephrase your question?"
-            
-            # Note: Translation requires internet (Gemini API), so skip it in offline mode
-            # If translation is needed, user should use Pinecone + Gemini API mode instead
-            
-            def stream_generator():
-                yield response_text
-                yield "\n[[SOURCES]]" + JSONResponse(content={"sources": sources}).body.decode()
-            
-            return StreamingResponse(stream_generator(), media_type="text/plain")
-        
+        # MODE 2: CHROMADB + LOCAL MODEL removed — use Gemini API instead
+        # elif flags.USE_CHROMADB and flags.USE_LOCAL_MODEL: ...
+
         else:
             return JSONResponse(
                 status_code=500,

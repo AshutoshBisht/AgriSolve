@@ -14,15 +14,17 @@ Internet Usage:
 """
 
 
+# Offline mode (local) — removed, not needed
 # USE_CHROMADB = True  
-# USE_PINECONE = False 
-# USE_LOCAL_MODEL = True  
-# USE_GEMINI_API = False 
+# USE_PINECONE = False
+# USE_LOCAL_MODEL = True
+# USE_GEMINI_API = False
 
-USE_CHROMADB = False  
-USE_PINECONE = True 
-USE_LOCAL_MODEL = False  
-USE_GEMINI_API = True 
+# Active configuration: Pinecone (cloud) + Gemini API
+USE_CHROMADB = False
+USE_PINECONE = True
+USE_LOCAL_MODEL = False  # Local model support removed
+USE_GEMINI_API = True
 
 # UI Configuration - Only ONE should be True
 USE_OLD_UI = True  # Current UI with chat, voice, and language selection
