@@ -13,24 +13,27 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FarmerProvider } from "./context/FarmerContext";
 import AgentNav, { AgentTab } from "./components/AgentNav";
-import MapPanel       from "./components/MapPanel";
-import LocationForm   from "./components/LocationForm";
-import CropCards      from "./components/CropCards";
-import WeatherWidget  from "./components/WeatherWidget";
-import MarketAdvisor  from "./components/MarketAdvisor";
-import CropCalendar   from "./components/CropCalendar";
-import CropDoctor     from "./components/CropDoctor";
-import PredictWidget  from "./components/PredictWidget";
+import MapPanel from "./components/MapPanel";
+import LocationForm from "./components/LocationForm";
+import CropCards from "./components/CropCards";
+import WeatherWidget from "./components/WeatherWidget";
+import MarketAdvisor from "./components/MarketAdvisor";
+import CropCalendar from "./components/CropCalendar";
+import CropDoctor from "./components/CropDoctor";
+import PredictWidget from "./components/PredictWidget";
+import AgentChat from "./components/AgentChat";
+
 
 // Maps each tab ID to the component that renders in the left panel
 const PANEL_COMPONENTS: Record<AgentTab, React.ComponentType> = {
-  map:      LocationForm,
-  crops:    CropCards,
-  weather:  WeatherWidget,
-  market:   MarketAdvisor,
+  map: LocationForm,
+  crops: CropCards,
+  weather: WeatherWidget,
+  market: MarketAdvisor,
   calendar: CropCalendar,
-  doctor:   CropDoctor,
-  predict:  PredictWidget,
+  doctor: CropDoctor,
+  predict: PredictWidget,
+  agent: AgentChat,
 };
 
 function FarmingPlannerContent() {

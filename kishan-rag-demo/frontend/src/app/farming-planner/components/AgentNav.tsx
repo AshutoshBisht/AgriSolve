@@ -11,20 +11,22 @@ export type AgentTab =
   | "market"
   | "calendar"
   | "doctor"
-  | "predict";
+  | "predict"
+  | "agent";
 
-const TABS: { id: AgentTab; icon: string; label: string }[] = [
-  { id: "map",      icon: "my_location",   label: "Location"  },
-  { id: "crops",    icon: "grass",         label: "Crops"     },
-  { id: "weather",  icon: "cloud",         label: "Weather"   },
-  { id: "market",   icon: "trending_up",   label: "Market"    },
-  { id: "calendar", icon: "calendar_month",label: "Calendar"  },
-  { id: "doctor",   icon: "local_hospital",label: "Doctor"    },
-  { id: "predict",  icon: "insights",      label: "Predict"   },
+const TABS: { id: AgentTab; icon: string; label: string; alwaysEnabled?: boolean }[] = [
+  { id: "map", icon: "my_location", label: "Location" },
+  { id: "crops", icon: "grass", label: "Crops" },
+  { id: "weather", icon: "cloud", label: "Weather" },
+  { id: "market", icon: "trending_up", label: "Market" },
+  { id: "calendar", icon: "calendar_month", label: "Calendar" },
+  { id: "doctor", icon: "local_hospital", label: "Doctor" },
+  { id: "predict", icon: "insights", label: "Predict" },
+  { id: "agent", icon: "smart_toy", label: "Ask AI", alwaysEnabled: true },
 ];
 
 interface AgentNavProps {
-  active:   AgentTab;
+  active: AgentTab;
   onChange: (tab: AgentTab) => void;
 }
 
@@ -35,9 +37,9 @@ export default function AgentNav({ active, onChange }: AgentNavProps) {
   return (
     <div className="flex overflow-x-auto gap-1 px-4 py-2 bg-white border-b border-green-100 scrollbar-hide">
       {TABS.map(tab => {
-        const isMap      = tab.id === "map";
-        const isActive   = active === tab.id;
-        const isDisabled = locked && !isMap;
+        const isMap = tab.id === "map";
+        const isActive = active === tab.id;
+        const isDisabled = locked && !isMap && !tab.alwaysEnabled;
 
         return (
           <button

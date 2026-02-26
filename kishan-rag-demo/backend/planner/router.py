@@ -11,13 +11,14 @@ from pydantic import BaseModel, Field
 from typing import Optional
 import httpx
 
-from .map_agent     import geocode_location
-from .weather_agent import get_weather
-from .crop_agent    import recommend_crops
-from .market_agent  import get_market_data
+from .map_agent      import geocode_location
+from .weather_agent  import get_weather
+from .crop_agent     import recommend_crops
+from .market_agent   import get_market_data
 from .calendar_agent import get_calendar
-from .doctor_agent  import diagnose
-from .predict_agent import predict
+from .doctor_agent   import diagnose
+from .predict_agent  import predict
+from .autonomous_agent import run_agent   # ← Agno autonomous agent
 
 router = APIRouter(prefix="/api/planner", tags=["Farming Planner"])
 
@@ -281,3 +282,30 @@ async def planner_health():
     """Quick ping to confirm the planner router is live."""
     return {"status": "ok", "module": "farming-planner"}
 
+
+# -- Autonomous Agent -----------------------------------------------------------
+class AgentRequest(BaseModel):
+    query: str = Field(
+        ...,
+        example="What should I grow in Agra this Rabi season? What are current market prices?",
+        description="A natural language question from the farmer."
+    )
+
+
+@router.post("/agent")
+async def autonomous_agent_endpoint(req: AgentRequest):
+    """
+    Autonomous farming agent powered by Agno + Gemini Function Calling.
+    Unlike the other endpoints (fixed pipeline), Gemini decides which tools
+    to call and in what order based on the farmer's natural language query.
+
+    Tools: geocode (Nominatim) | weather (Open-Meteo) | soil (ISRIC SoilGrids)
+           market prices (Data.gov.in Agmarknet) | crop recs (AgriSolve rules)
+    """
+    if not req.query.strip():
+        raise HTTPException(status_code=400, detail="Query cannot be empty.")
+    result = await run_agent(req.query)
+    if result.get("status") == "error":
+        raise HTTPException(status_code=500,
+                            detail=f"Agent error: {result.get('error', 'Unknown error')}")
+    return result

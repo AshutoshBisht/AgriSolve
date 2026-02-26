@@ -15,4 +15,5 @@ python-multipart
 groq  # Whisper transcription via Groq API (free tier, no local model needed)
 beautifulsoup4  # HTML parsing for URL content scraping
 httpx  # Async HTTP client for web scraping
+agno   # Lightweight agent framework for Gemini autonomous tool-calling agents
 # torch / transformers / librosa / soundfile / resampy removed — not needed with Groq
