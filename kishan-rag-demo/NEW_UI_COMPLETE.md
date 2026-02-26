@@ -9,7 +9,7 @@ I've created a complete new UI system with a landing page and separate chat/docu
 ## Project Structure
 
 ```
-frontend/src/app/
+frontend/src/app/ 
 ├── page.tsx                  # Root router (decides which UI to show)
 ├── layout.tsx                # Updated with Material Symbols fonts
 ├── globals.css               # Updated with new design tokens
