@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 from pinecone import Pinecone, ServerlessSpec
 from sentence_transformers import SentenceTransformer
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-import asyncio
 import hashlib
 from datetime import datetime, timezone
 from fastapi.concurrency import run_in_threadpool
@@ -12,24 +11,17 @@ from fastapi.concurrency import run_in_threadpool
 load_dotenv()
 
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
-PINECONE_ENVIRONMENT = os.getenv("PINECONE_ENVIRONMENT")
-PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME")
+PINECONE_ENVIRONMENT = os.getenv("PINECONE_ENVIRONMENT", "aws-us-east-1")
+PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "agrisolve")
 
-load_dotenv()
-
-PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
-PINECONE_ENVIRONMENT = os.getenv("PINECONE_ENVIRONMENT")
-PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME")
-
-pc = Pinecone(api_key=PINECONE_API_KEY)
-
-# Parse environment for cloud/region
-if PINECONE_ENVIRONMENT and "-" in PINECONE_ENVIRONMENT:
-    cloud, region = PINECONE_ENVIRONMENT.split("-", 1)
-else:
-    cloud, region = "aws", "us-east-1"
+# Parse PINECONE_ENVIRONMENT (e.g. "aws-us-east-1") into cloud and region
+# for ServerlessSpec. Split on the first hyphen only.
+_env_parts = PINECONE_ENVIRONMENT.split("-", 1)
+cloud  = _env_parts[0] if len(_env_parts) >= 2 else "aws"
+region = _env_parts[1] if len(_env_parts) >= 2 else "us-east-1"
 
 pc = Pinecone(api_key=PINECONE_API_KEY)
+
 
 
 # Embedding model: 384-dim, ~90MB RAM (lightweight, deployment-friendly)
