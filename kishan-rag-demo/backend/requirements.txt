@@ -4,7 +4,9 @@ python-dotenv
 pydantic
 pinecone
 langchain-text-splitters
-sentence-transformers  # all-MiniLM-L6-v2 — 384-dim, ~90MB RAM (pulls in torch, but lightweight)
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.6.0+cpu
+sentence-transformers  # all-MiniLM-L6-v2 — 384-dim, ~90MB RAM
 # BAAI/bge-large-en-v1.5 and cross-encoder removed — were ~750MB RAM combined
 # pypdf
 pymupdf
