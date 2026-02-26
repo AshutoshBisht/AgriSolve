@@ -556,18 +556,7 @@ export default function NewUIChat() {
   );
 }
 
-type Source = {
-  text: string;
-  doc_name?: string;
-  doc_url?: string;
-  chunk_index?: number;
-};
 
-type Message = {
-  sender: string;
-  text: string;
-  sources?: Source[];
-};
 
 const MessageBubble = ({
   message,
